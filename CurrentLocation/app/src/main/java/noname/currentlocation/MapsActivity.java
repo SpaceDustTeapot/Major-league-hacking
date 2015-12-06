@@ -23,6 +23,11 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.net.*;
+import java.io.*;
+import java.util.ArrayList;
+
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -50,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-/*        // LOCATION TEST
+/*      // LOCATION TEST
         // Enable MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
 
@@ -94,10 +99,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //fake tests
 
-        LatLng pin1 = new LatLng(53.463830, -2.226552);
-        LatLng pin2 = new LatLng(53.462552, -2.229342);
-        LatLng pin3 = new LatLng(53.474074, -2.241573);
-        LatLng pin4 = new LatLng(53.477624, -2.230844);
+        LatLng currentLocation = new LatLng(53.462071699999996, -2.228508599999941);
+
 
         /////////////////////////////////////////
 
@@ -106,74 +109,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         BufferedReader br;
         String line;
 
-/*
-        try {
-            url = new URL("http://192.168.72.49/xampp/api_req.php?lat=53.455028&long=-2.233534&sesh=0");
-            is = url.openStream();  // throws an IOException
-            br = new BufferedReader(new InputStreamReader(is));
 
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (MalformedURLException mue) {
-            mue.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } finally {
-            try {
-                if (is != null) is.close();
-            } catch (IOException ioe) {
-                // nothing to see here
-            }
+        String content = URLConnectionReader.getText("http://192.168.72.49/xampp/api_req.php?lat=53.455028&long=-2.233534&sesh=0");
+        //System.out.println(content);
+
+        ArrayList<Double> dynamicArray = new ArrayList<Double>();
+        
+        for(String s : content.split("(?=<)|(?<=>)")){
+        	if (!s.contains("<"))
+        	{
+        		dynamicArray.add(Double.parseDouble(s));
+        	}
         }
-
-*/
-        try {
-            // Create a URL for the desired page
-            url = new URL("http://192.168.72.49/xampp/api_req.php?lat=53.455028&long=-2.233534&sesh=0");
-
-            // Read all the text returned by the server
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-            String str;
-            while ((str = in.readLine()) != null) {
-                System.out.println(str);
-                // str is one line of text; readLine() strips the newline character(s)
-            }
-            in.close();
+              
+		
+        for (double d : dynamicArray)
+        {
+        	if (newIndex == 0)
+				double lat = d;
+        	if (newIndex == 1)
+				double lon = d;
+          	if (newIndex == 2)
+				mMap.addMarker(new MarkerOptions()
+                .position(lat, lon)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                .title("PIN"));	    	
+        	
         }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
-
-        mMap.addMarker(new MarkerOptions()
-                .position(pin1)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                .title("Location1"));
-        mMap.addMarker(new MarkerOptions()
-                .position(pin2)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                .title("Location2"));
-        mMap.addMarker(new MarkerOptions()
-                .position(pin3)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                .title("Location3"));
-        mMap.addMarker(new MarkerOptions()
-                .position(pin4)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                .title("Location4"));
-
+		
 
         float zoomLevel = 16; //This goes up to 21
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin1, zoomLevel));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, zoomLevel));
     }
-
 
 }

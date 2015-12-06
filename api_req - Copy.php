@@ -16,19 +16,15 @@ header('Expires: -1');
 echo "<?xml version='1.0' encoding='UTF-8'?>";
 echo "<potty>";
 
-$i=0;
 while($row = mysqli_fetch_array($sql))
 {
-	if($i<10)
-	{
  $Longitude  = $row['lon'];
  $lat = $row['lat'];
  echo "<lat>" . $lat . "</lat>";
  echo "<long>". $Longitude . "</long>";
  $temp = Work_Distance($L_Latitude, $lat,$L_Long,$Longitude);
  echo "<Distance>" . $temp . "</Distance>";
-	}
- $i++;
+ 
 }
 
 echo "</potty>";
