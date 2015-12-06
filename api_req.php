@@ -9,8 +9,10 @@ header('Expires: -1');
  $L_Long = $Array['long'];
  $L_Latitude = $Array['lat'];
  $Seshid = $Array['sesh'];
- $con = mysqli_connect("127.0.0.1","root","","mlh");  
-
+ $Latarray = array();
+ $Longarray = array();
+ $con = mysqli_connect("127.0.0.1","MLH","ebin","MLH");  
+ $distarray = array();
   $sql = mysqli_query($con,"SELECT * FROM pottylist");
 
 echo "<?xml version='1.0' encoding='UTF-8'?>";
@@ -18,18 +20,28 @@ echo "<potty>";
 
 $i=0;
 while($row = mysqli_fetch_array($sql))
-{
+{/*
 	if($i<10)
 	{
  $Longitude  = $row['lon'];
  $lat = $row['lat'];
  echo "<lat>" . $lat . "</lat>";
  echo "<long>". $Longitude . "</long>";
- $temp = Work_Distance($L_Latitude, $lat,$L_Long,$Longitude);
+ temp = Work_Distance($L_Latitude, $lat,$L_Long,$Longitude);
  echo "<Distance>" . $temp . "</Distance>";
 	}
- $i++;
+ $i++;*/
+  $temp = Work_Distance($L_Latitude, $lat,$L_Long,$Longitude);
+//Everything above line works
+   $Latarray[$i] = $row['lat'];
+   $Longarray[$i] = $row['lon'];
+   $distarray[$i] = $temp;
+  $i++;
 }
+
+Print_nearest_ten($distarray,$Latarray,$Longarray,$i);
+ 
+
 
 echo "</potty>";
 
@@ -60,6 +72,44 @@ function Work_Distance($lat1,$lat2,$lon1,$lon2)
  
 
 }
+
+function Print_nearest_ten($distarr,$latarr,$lonarr,$i)
+{
+
+ $low;
+ $place;
+ $count = 0;
+ $lowloop = false;
+ if($count <= 15)
+{
+ $lowloop = true;
+}
+while($count < 15 && $lowloop == true || $count<$i && lowloop == false)
+{
+ 	for($k =0;$k<=$i;$k++)
+	{
+ 		$test = $distarr[$k];
+ 		if($test < $distarr[$k])
+ 		{
+ 	 		$low = $test;
+			$place = $k;
+
+ 		}
+		else 
+		{
+
+		}
+
+	}
+  echo "<lat>" . $latarr[$k] . "</lat>";
+ echo "<long>". $lonarr[$k] . "</long>";
+ echo "<Distance>" . $distarr[$k] . "</Distance>";
+ $distarr[$k] = 90000000000000000;
+ $count++;
+ 
+}
+}
+
 
 function conv_Lat($lat)
 {
