@@ -55,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-/*      // LOCATION TEST
+        // LOCATION TEST
         // Enable MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
 
@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Create a criteria object to retrieve provider
         Criteria criteria = new Criteria();
         // accuracy of current location
-       // criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        //criteria.setAccuracy(Criteria.ACCURACY_FINE);
 
         // Get the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
@@ -74,7 +74,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Location myLocation = locationManager.getLastKnownLocation(provider);
 
         // set map type
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
 
         // Get latitude of the current location
@@ -92,19 +92,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Zoom in the Google Map
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
         LatLng currentLocation = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are here!").snippet("Consider yourself located"));
+        //mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are here!").snippet("Consider yourself located"));
         //////////////////////////
 
-*/
+
 
         //fake tests
 
-        LatLng currentLocation = new LatLng(53.462071699999996, -2.228508599999941);
+        LatLng pin1 = new LatLng(53.462071699999996, -2.228508599999941);
+        mMap.addMarker(new MarkerOptions()
+                .position(pin1)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                .title("PIN"));
+
 
 
         /////////////////////////////////////////
 
-        URL url;
+/*        URL url;
         InputStream is = null;
         BufferedReader br;
         String line;
@@ -121,25 +126,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         		dynamicArray.add(Double.parseDouble(s));
         	}
         }
-              
-		
+
+        double lat = 0.0;
+        double lon = 0.0;
+        int newIndex = 0;
         for (double d : dynamicArray)
         {
         	if (newIndex == 0)
-				double lat = d;
+				 lat = d;
         	if (newIndex == 1)
-				double lon = d;
-          	if (newIndex == 2)
-				mMap.addMarker(new MarkerOptions()
-                .position(lat, lon)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                .title("PIN"));	    	
-        	
+				 lon = d;
+          	if (newIndex == 2) {
+                LatLng pos = new LatLng(lat, lon);
+                mMap.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                        .title("PIN"));
+            }
+
+            newIndex = (newIndex + 1) % 3;
         }
 		
-
+*/
         float zoomLevel = 16; //This goes up to 21
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, zoomLevel));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pin1, zoomLevel));
     }
 
 }
