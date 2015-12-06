@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_id": "potty-1150",
+    "project_number": "158533340520",
+    "name": "Potty"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158533340520:android:19804b67c02b2573",
+        "client_id": "android:noname.potty",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "noname.potty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158533340520-d1o5ljn2gm1i8dpia51fm85si0st8okn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "noname.potty",
+            "certificate_hash": "444424BF4BF3B0EFFB262D1D04AC8BB259AF4617"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
